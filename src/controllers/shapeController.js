@@ -59,6 +59,35 @@ export const getArea = (req, res) => {
     return res.status(400).json({ message: "Type non supporté" });
 }
 
+export const updateShape = (req, res) => {
+    const id = (req.params.id);
+
+    const error = shapeValidator.validateCreate(req.body);
+    if (error) {
+        return res.status(400).json(error);
+    };
+
+    const existing = shapeRepository.findById(id);
+    if (!existing) {
+        return res.status(404).json({ message: "Not found" });
+    }
+
+    const { type, x, y, width, height } = req.body;
+
+    const updated = {
+        id,
+        type,
+        x,
+        y,
+        width: type === "rectangle" ? width : null,
+        height: type === "rectangle" ? height : null
+    };
+
+    shapeRepository.update(id, updated);
+
+    res.json(updated);
+};
+
 export const deleteShape = ((req, res) => {
     const success = shapeRepository.delete(req.params.id);
 
