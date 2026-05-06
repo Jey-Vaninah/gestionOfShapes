@@ -1,5 +1,5 @@
 import express from "express";
-import { createShape, deleteShape, getArea, getShape, updateShape } from "../controllers/shapeController.js";
+import { createShape, deleteShape, getArea, getShape, translate, updateShape } from "../controllers/shapeController.js";
 const router = express.Router()
 
 router.post("/shapes", createShape)
@@ -7,4 +7,5 @@ router.get("/shapes", getShape)
 router.get("/shapes/:id/area", getArea)
 router.delete("/shapes/:id", deleteShape)
 router.put("/shapes/:id", updateShape)
+router.post("/shapes/:id/translate", translate)
 export default router;

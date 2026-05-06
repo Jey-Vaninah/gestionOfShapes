@@ -88,7 +88,7 @@ export const updateShape = (req, res) => {
     res.json(updated);
 };
 
-export const deleteShape = ((req, res) => {
+export const deleteShape = (req, res) => {
     const success = shapeRepository.delete(req.params.id);
 
     if (!success) {
@@ -96,5 +96,20 @@ export const deleteShape = ((req, res) => {
     }
 
     res.json({ message: "Deleted" });
-});
+};
+
+export const translate = (req, res) => {
+    const id = req.params.id
+    const shape = shapeRepository.findById(id);
+    const { dx, dy } = req.query
+    const newX = shape.x + Number(dx);
+    const newY = shape.y + Number(dy);
+    const updated = {
+        ...shape,
+        x: newX,
+        y: newY
+    };
+    shapeRepository.update(id, updated);
+    res.json(updated);
+}
 
