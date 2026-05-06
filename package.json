@@ -1,0 +1,25 @@
+{
+  "name": "gestionofshapes",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Jey-Vaninah/gestionOfShapes#readme",
+  "bugs": {
+    "url": "https://github.com/Jey-Vaninah/gestionOfShapes/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jey-Vaninah/gestionOfShapes.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14",
+    "uuid": "^14.0.0"
+  }
+}
