@@ -23,3 +23,8 @@ export const createShape = (req, res) => {
     shapeRepository.save(newShape);
     res.status(201).json(newShape);
 }
+
+export const getShape = (req, res) => {
+    const result = shapeRepository.findByCriteria(req.query);
+    res.json(result)
+}

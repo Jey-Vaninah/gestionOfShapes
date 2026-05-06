@@ -12,6 +12,26 @@ export const shapeRepository = {
         return shapes.find(shp => shp.id === id) || null
     },
 
+    findByCriteria(filters) {
+        const shapes = fsUtils.read();
+
+        return shapes.filter(shp => {
+            return Object.entries(filters).every(([key, value]) => {
+
+                if (key === "minX") return shp.x >= Number(value);
+                if (key === "maxX") return shp.x <= Number(value);
+                if (key === "minY") return shp.y >= Number(value);
+                if (key === "maxY") return shp.y <= Number(value);
+
+                if (typeof shp[key] === "string") {
+                    return shp[key].toLowerCase() === String(value).toLowerCase();
+                }
+
+                return Number(shp[key]) === Number(value);
+            });
+        });
+    },
+
     save(shape) {
         const shapes = fsUtils.read();
 
