@@ -8,4 +8,5 @@ router.get("/shapes/:id/area", getArea)
 router.delete("/shapes/:id", deleteShape)
 router.put("/shapes/:id", updateShape)
 router.post("/shapes/:id/translate", translate)
+router.get("/shapes/collide", getShape)
 export default router;

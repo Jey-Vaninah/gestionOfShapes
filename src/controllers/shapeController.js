@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { shapeValidator } from "../validators/shapeValidator.js";
 import { shapeRepository } from "../repositories/shapeRepository.js";
+import { shapeService } from "../service/shapeService.js";
 
 export const createShape = (req, res) => {
     const error = shapeValidator.validateCreate(req.body);
@@ -37,25 +38,13 @@ export const getArea = (req, res) => {
         return res.status(404).json({ message: "Shape introuvable" });
     }
 
-    if (shape.type === "point") {
-        const area = 0;
+    const area = shapeService.area(shape);
 
-        return res.json({
-            id: shape.id,
-            type: shape.type,
-            area
-        });
-    }
-
-    if (shape.type === "rectangle") {
-        const area = shape.width * shape.height;
-
-        return res.json({
-            id: shape.id,
-            type: shape.type,
-            area
-        });
-    }
+    res.json({
+        id: shape.id,
+        type: shape.type,
+        area
+    });
     return res.status(400).json({ message: "Type non supporté" });
 }
 
@@ -102,14 +91,21 @@ export const translate = (req, res) => {
     const id = req.params.id
     const shape = shapeRepository.findById(id);
     const { dx, dy } = req.query
-    const newX = shape.x + Number(dx);
-    const newY = shape.y + Number(dy);
-    const updated = {
-        ...shape,
-        x: newX,
-        y: newY
-    };
+    const updated = shapeService.translate(shape, dx, dy)
+
     shapeRepository.update(id, updated);
     res.json(updated);
 }
+
+export const collide = (req, res) => {
+    const { id1, id2 } = req.query;
+    const shape1 = shapeRepository.findById(id1);
+    const shape2 = shapeRepository.findById(id2);
+
+    if (!shape1 || !shape2) {
+        return res.status(404).json({ message: "Shape introuvable" });
+    }
+    //todo
+}
+
 
