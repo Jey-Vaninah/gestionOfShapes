@@ -17,7 +17,7 @@ export const createShape = (req, res) => {
         x,
         y,
         width: type === "rectangle" ? width : null,
-        heigth: type === "rectangle" ? height : null
+        height: type === "rectangle" ? height : null
     }
 
     shapeRepository.save(newShape);
@@ -38,7 +38,13 @@ export const getArea = (req, res) => {
     }
 
     if (shape.type === "point") {
-        return res.status(400).json({ message: "Un point n'a pas d'aire" });
+        const area = 0;
+
+        return res.json({
+            id: shape.id,
+            type: shape.type,
+            area
+        });
     }
 
     if (shape.type === "rectangle") {
@@ -52,3 +58,14 @@ export const getArea = (req, res) => {
     }
     return res.status(400).json({ message: "Type non supporté" });
 }
+
+export const deleteShape = ((req, res) => {
+    const success = shapeRepository.delete(req.params.id);
+
+    if (!success) {
+        return res.status(404).json({ message: "Not found" });
+    }
+
+    res.json({ message: "Deleted" });
+});
+
