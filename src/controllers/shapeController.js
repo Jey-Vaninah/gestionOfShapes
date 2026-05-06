@@ -28,3 +28,27 @@ export const getShape = (req, res) => {
     const result = shapeRepository.findByCriteria(req.query);
     res.json(result)
 }
+
+export const getArea = (req, res) => {
+    const { id } = req.params;
+    const shape = shapeRepository.findById(id);
+
+    if (!shape) {
+        return res.status(404).json({ message: "Shape introuvable" });
+    }
+
+    if (shape.type === "point") {
+        return res.status(400).json({ message: "Un point n'a pas d'aire" });
+    }
+
+    if (shape.type === "rectangle") {
+        const area = shape.width * shape.height;
+
+        return res.json({
+            id: shape.id,
+            type: shape.type,
+            area
+        });
+    }
+    return res.status(400).json({ message: "Type non supporté" });
+}
